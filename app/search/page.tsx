@@ -55,9 +55,7 @@ export default function Search() {
     };
 
     getBusinesses();
-    return () => {
-      abortCtr.abort();
-    };
+    return () => abortCtr.abort();
   }, []);
 
   let content;
