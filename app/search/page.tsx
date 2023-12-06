@@ -13,8 +13,7 @@ import NoResults from "@/components/Utils/NoResults";
 
 export default function Search() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const query = searchParams.get("query");
+  const query = useSearchParams().get("query");
   const [businesses, setBusinesses] = useState<IApiPlace[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -49,20 +48,32 @@ export default function Search() {
         setBusinesses(data);
       } catch (error: unknown) {
         setIsError(true);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
     };
 
     getBusinesses();
-    return () => abortCtr.abort();
+    return () => {
+      abortCtr.abort();
+    };
   }, []);
 
   let content;
-  if (!businesses) content = <NoResults />;
-  if (isLoading) content = <LoadingList />;
-  if (isError) content = <SearchError />;
-  if (businesses) {
+  if (!businesses || businesses.length === 0) {
+    content = <NoResults />;
+  }
+
+  if (isLoading) {
+    content = <LoadingList />;
+  }
+
+  if (isError) {
+    content = <SearchError />;
+  }
+
+  if (businesses && businesses.length !== 0) {
     content = (
       <div className="grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {businesses.map((business) => (
