@@ -30,7 +30,7 @@ export default function Sidebar({ business, setSidebarToggle }: ISidebarProps) {
 
     getMapSource();
 
-    // return () => abortCtr.abort();
+    return () => abortCtr.abort();
   }, [business?.placeId]);
 
   let content;
