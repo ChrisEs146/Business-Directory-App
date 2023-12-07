@@ -35,6 +35,8 @@ export default function Sidebar({ business, setSidebarToggle }: ISidebarProps) {
 
   let content;
   if (business) {
+    const encodedName = encodeURIComponent(business.name);
+    const encodedAddress = encodeURIComponent(business.address);
     content = (
       <>
         <h1 className="text-l font-bold mb-3">{business.name}</h1>
@@ -57,7 +59,7 @@ export default function Sidebar({ business, setSidebarToggle }: ISidebarProps) {
         </div>
         <Link
           className="text-white bg-red-500 p-3 mb-4 rounded-md w-full font-semibold text-center block hover:bg-red-400 transition-all"
-          href={`https://www.google.com/maps/search/?api=1&query=${business.name},${business.address}`}
+          href={`https://www.google.com/maps/search/?api=1&query=${encodedName},${encodedAddress}`}
           target="_blank"
         >
           Get Direction
@@ -69,7 +71,7 @@ export default function Sidebar({ business, setSidebarToggle }: ISidebarProps) {
             height="250"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}&q=${business.name},${business.address}`}
+            src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}&q=${encodedName},${encodedAddress}`}
           ></iframe>
         </div>
       </>
